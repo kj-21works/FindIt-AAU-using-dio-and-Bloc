@@ -50,9 +50,16 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
     _selectedStatus = widget.item.status;
 
-    try {
-      _selectedDate = DateTime.parse(widget.item.date);
-    } catch (_) {
+    final dynamic itemDate = widget.item.date;
+    if (itemDate is String) {
+      try {
+        _selectedDate = DateTime.parse(itemDate);
+      } catch (_) {
+        _selectedDate = DateTime.now();
+      }
+    } else if (itemDate is DateTime) {
+      _selectedDate = itemDate;
+    } else {
       _selectedDate = DateTime.now();
     }
   }
@@ -95,7 +102,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       location: _selectedLocation,
       contactInfo: _contactCtrl.text.trim(),
       status: _selectedStatus,
-      date: _selectedDate.toIso8601String(),
+      date: _selectedDate,
     );
 
     context.read<ItemBloc>().add(UpdateItemEvent(updatedItem));

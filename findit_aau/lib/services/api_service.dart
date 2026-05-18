@@ -1,15 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart' show debugPrint;
 import '../utils/constants.dart';
 
 class ApiService {
+  static const String _itemsEndpoint = '/items';
   late final Dio _dio;
 
   ApiService() {
     _dio = Dio(
       BaseOptions(
         baseUrl: AppConstants.baseUrl,
-        connectTimeout: const Duration(milliseconds: AppConstants.connectTimeout),
-        receiveTimeout: const Duration(milliseconds: AppConstants.receiveTimeout),
+        connectTimeout:
+            const Duration(milliseconds: AppConstants.connectTimeout),
+        receiveTimeout:
+            const Duration(milliseconds: AppConstants.receiveTimeout),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -17,21 +21,19 @@ class ApiService {
       ),
     );
 
-    // Logging interceptor for debugging
     _dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
         responseBody: true,
         error: true,
-        logPrint: (obj) => print('[DIO] $obj'),
+        logPrint: (obj) => debugPrint(obj.toString()),
       ),
     );
   }
 
-  /// GET /items
   Future<List<dynamic>> getItems() async {
     try {
-      final response = await _dio.get(AppConstants.itemsEndpoint);
+      final response = await _dio.get(_itemsEndpoint);
       if (response.data is List) {
         return response.data as List<dynamic>;
       }
@@ -41,32 +43,28 @@ class ApiService {
     }
   }
 
-  /// POST /items
   Future<Map<String, dynamic>> createItem(Map<String, dynamic> data) async {
     try {
-      final response = await _dio.post(AppConstants.itemsEndpoint, data: data);
+      final response = await _dio.post(_itemsEndpoint, data: data);
       return response.data as Map<String, dynamic>;
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
   }
 
-  /// PUT /items/:id
   Future<Map<String, dynamic>> updateItem(
       String id, Map<String, dynamic> data) async {
     try {
-      final response =
-          await _dio.put('${AppConstants.itemsEndpoint}/$id', data: data);
+      final response = await _dio.put('$_itemsEndpoint/$id', data: data);
       return response.data as Map<String, dynamic>;
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
   }
 
-  /// DELETE /items/:id
   Future<void> deleteItem(String id) async {
     try {
-      await _dio.delete('${AppConstants.itemsEndpoint}/$id');
+      await _dio.delete('$_itemsEndpoint/$id');
     } on DioException catch (e) {
       throw _handleDioError(e);
     }

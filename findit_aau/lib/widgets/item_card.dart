@@ -21,12 +21,19 @@ class ItemCard extends StatelessWidget {
     required this.onDelete,
   });
 
-  String _formatDate(String dateStr) {
+  String _formatDate(dynamic dateValue) {
     try {
-      final date = DateTime.parse(dateStr);
+      DateTime date;
+      if (dateValue is DateTime) {
+        date = dateValue;
+      } else if (dateValue is String) {
+        date = DateTime.parse(dateValue);
+      } else {
+        return dateValue?.toString() ?? '';
+      }
       return DateFormat('MMM d, yyyy').format(date);
     } catch (_) {
-      return dateStr;
+      return dateValue?.toString() ?? '';
     }
   }
 

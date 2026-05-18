@@ -8,8 +8,8 @@ class ItemModel extends Equatable {
   final String imageUrl;
   final String location;
   final String contactInfo;
-  final String status; // 'Lost' or 'Found'
-  final String date;
+  final String status;
+  final DateTime date;
 
   const ItemModel({
     this.id,
@@ -33,7 +33,9 @@ class ItemModel extends Equatable {
       location: json['location'] ?? '',
       contactInfo: json['contactInfo'] ?? '',
       status: json['status'] ?? 'Lost',
-      date: json['date'] ?? DateTime.now().toIso8601String(),
+      date: DateTime.parse(
+        json['date'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 
@@ -46,7 +48,7 @@ class ItemModel extends Equatable {
       'location': location,
       'contactInfo': contactInfo,
       'status': status,
-      'date': date,
+      'date': date.toIso8601String(),
     };
   }
 
@@ -59,7 +61,7 @@ class ItemModel extends Equatable {
     String? location,
     String? contactInfo,
     String? status,
-    String? date,
+    DateTime? date,
   }) {
     return ItemModel(
       id: id ?? this.id,

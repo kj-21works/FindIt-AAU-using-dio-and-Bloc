@@ -1,184 +1,123 @@
 # FindIt AAU 🔍
 
-> A campus lost & found platform for Addis Ababa University students — built with Flutter, Bloc, and Dio.
+A simple lost & found app built for Addis Ababa University students.  
+Post items, browse what others found, update reports, or remove them when solved.
 
 ---
 
-## About
+## What this app does
 
-**FindIt AAU** helps students at Addis Ababa University report and recover lost items across campus. Whether you lost your student ID near the Main Library or found a backpack at the Engineering Block, FindIt AAU connects the campus community quickly and efficiently.
+People lose things all the time on campus. This app is just a shared board to help fix that.
+
+You can:
+- Post a lost or found item
+- See all reported items
+- Edit your own posts
+- Delete items when they’re resolved
+- Search and filter by category or status
+
+Nothing fancy. Just practical.
+
+---
+
+## Tech stack
+
+- Flutter
+- Bloc (state management)
+- Dio (API calls)
+- MockAPI (backend)
+
+---
+
+## API setup
+
+This project uses MockAPI.
+
+**Base URL:**
+
+https://6a0b93ae5aa893e1015a57fd.mockapi.io/api/v1
+
+
+**Endpoint:**
+
+/items
+
+
+---
+
+## Item structure
+
+Each item contains:
+
+- id
+- title
+- description
+- category
+- imageUrl
+- location
+- contactInfo
+- status (Lost / Found)
+- date (ISO string)
+
+---
+
+## Project structure
+
+
+lib/
+├── blocs/item/
+│ ├── item_bloc.dart
+│ ├── item_event.dart
+│ └── item_state.dart
+├── models/
+│ └── item_model.dart
+├── repositories/
+│ └── item_repository.dart
+├── services/
+│ └── api_service.dart
+├── screens/
+│ ├── home_screen.dart
+│ ├── add_item_screen.dart
+│ ├── edit_item_screen.dart
+│ └── item_detail_screen.dart
+├── widgets/
+│ ├── item_card.dart
+│ └── common_widgets.dart
+├── utils/
+│ ├── constants.dart
+│ └── app_theme.dart
+└── main.dart
+
+
+---
+
+## How data flows
+
+UI → Bloc → Repository → API Service → MockAPI → UI
 
 ---
 
 ## Features
 
-- 📋 **Browse All Reports** — View all lost and found items in a clean, filterable list
-- ➕ **Report an Item** — Submit lost or found item reports with full details
-- ✏️ **Edit Reports** — Update any previously submitted report
-- 🗑️ **Delete Resolved Reports** — Remove items once they've been reunited with their owner
-- 🔍 **Search** — Search by title, location, or category
-- 🏷️ **Filter** — Filter by Lost/Found status and item category
-- 🔄 **Pull-to-Refresh** — Manually refresh the item list
-- 👆 **Swipe Actions** — Swipe cards to quickly edit or delete
-- 📍 **AAU Locations** — Predefined campus locations for accurate reporting
-- 📱 **Snackbar Feedback** — Clear success/error notifications
-- ⚡ **Optimistic UI** — Instant visual feedback on delete operations
-- 📭 **Empty State** — Friendly UI when no items exist
-- 🌐 **Error Handling** — Network errors, timeouts, and API failures handled gracefully
+- View all items from API
+- Add new lost/found items
+- Edit existing items
+- Delete items
+- Search by text
+- Filter by category or status
+- Pull to refresh
+- Loading and error states handled properly
 
----
+## Screenshots
 
-## Tech Stack
+![Home Screen](assets/Screenshot%202026-05-19%20015440.png)
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Flutter 3.x |
-| State Management | flutter_bloc ^8.x |
-| Networking | dio ^5.x |
-| API | MockAPI (REST) |
-| Image Loading | cached_network_image |
-| Fonts | google_fonts (Plus Jakarta Sans) |
-| Swipe Actions | flutter_slidable |
-| Date Formatting | intl |
+![Report Item](assets/Screenshot%202026-05-19%20015607.png)
 
----
+![Reported Item](assets/Screenshot%202026-05-19%20015640.png)
 
-## Architecture
+![Edit Item](assets/Screenshot%202026-05-19%20015705.png)
 
-```
-lib/
-├── blocs/item/
-│   ├── item_bloc.dart       # Business logic
-│   ├── item_event.dart      # User actions
-│   └── item_state.dart      # UI states
-├── models/
-│   └── item_model.dart      # Data model with fromJson/toJson
-├── repositories/
-│   └── item_repository.dart # Isolates data logic from Bloc
-├── services/
-│   └── api_service.dart     # Dio HTTP client (GET/POST/PUT/DELETE)
-├── screens/
-│   ├── home_screen.dart     # Item list + search/filter
-│   ├── add_item_screen.dart # New report form
-│   ├── edit_item_screen.dart# Edit form (pre-populated)
-│   └── item_detail_screen.dart # Detail view with actions
-├── widgets/
-│   ├── common_widgets.dart  # Shared UI components
-│   └── item_card.dart       # Slidable item card
-├── utils/
-│   ├── app_theme.dart       # Theme, colors, typography
-│   └── constants.dart       # API URL, categories, locations
-└── main.dart
-```
+![Edited Item](assets/Screenshot%202026-05-19%20015752.png)
 
-### Data Flow
-
-```
-UI (screens/widgets)
-    ↓ dispatch Event
-Bloc (item_bloc.dart)
-    ↓ calls
-Repository (item_repository.dart)
-    ↓ calls
-API Service (api_service.dart)
-    ↓ Dio HTTP request
-MockAPI (REST endpoint)
-```
-
----
-
-## API Setup (MockAPI)
-
-1. Go to [mockapi.io](https://mockapi.io) and create a free project
-2. Create a resource called `items` with these fields:
-
-| Field | Type |
-|-------|------|
-| id | ObjectId |
-| title | String |
-| description | String |
-| category | String |
-| imageUrl | String |
-| location | String |
-| contactInfo | String |
-| status | String (`Lost` / `Found`) |
-| date | String (ISO 8601) |
-
-3. Copy your base URL and update `lib/utils/constants.dart`:
-
-```dart
-static const String baseUrl = 'https://YOUR-PROJECT-ID.mockapi.io/api/v1';
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Flutter SDK ≥ 3.0.0
-- Dart ≥ 3.0.0
-- Android Studio / VS Code
-- A MockAPI endpoint (see above)
-
-### Installation
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/findit-aau.git
-cd findit-aau
-
-# 2. Install dependencies
-flutter pub get
-
-# 3. Update the API base URL in lib/utils/constants.dart
-
-# 4. Run the app
-flutter run
-```
-
----
-
-## Bloc Events & States
-
-### Events
-| Event | Description |
-|-------|-------------|
-| `FetchItemsEvent` | Load all items from API |
-| `AddItemEvent` | Create a new item report |
-| `UpdateItemEvent` | Update an existing item |
-| `DeleteItemEvent` | Delete an item by ID |
-| `SearchItemsEvent` | Filter items by search query |
-| `FilterItemsEvent` | Filter by status or category |
-| `ClearFiltersEvent` | Remove all active filters |
-
-### States
-| State | Description |
-|-------|-------------|
-| `ItemInitial` | App just launched |
-| `ItemLoading` | Fetching from API |
-| `ItemLoaded` | Items ready with filter/search |
-| `ItemSubmitting` | Create/Update in progress |
-| `ItemSuccess` | Operation completed |
-| `ItemError` | Fetch failure |
-| `ItemOperationError` | CRUD operation failure |
-
----
-
-## Item Categories
-
-Electronics · ID Cards · Bags · Books · Clothing · Accessories · Other
-
-## Campus Locations
-
-Main Library · Student Union · Science Faculty · Engineering Block · Cafeteria · Administration · Medical Faculty · Law Faculty · Business Faculty · Sports Complex · Dormitory A · Dormitory B · Gate 3 · Gate 6 · Other
-
----
-
-## License
-
-MIT License — free to use and modify for educational purposes.
-
----
-
-*Built for AAU students, by AAU students.* 🇪🇹
+![Deleting Item](assets/Screenshot%202026-05-19%20015822.png)

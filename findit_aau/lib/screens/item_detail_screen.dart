@@ -17,12 +17,19 @@ class ItemDetailScreen extends StatelessWidget {
 
   const ItemDetailScreen({super.key, required this.item});
 
-  String _formatDate(String dateStr) {
+  String _formatDate(dynamic dateInput) {
     try {
-      final date = DateTime.parse(dateStr);
+      DateTime date;
+      if (dateInput is DateTime) {
+        date = dateInput;
+      } else if (dateInput is String) {
+        date = DateTime.parse(dateInput);
+      } else {
+        return dateInput.toString();
+      }
       return DateFormat('MMMM d, yyyy').format(date);
     } catch (_) {
-      return dateStr;
+      return dateInput.toString();
     }
   }
 

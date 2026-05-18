@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/app_theme.dart';
 
-// ─────────────────────────────────────────
-//  Custom Text Field
-// ─────────────────────────────────────────
 class CustomTextField extends StatelessWidget {
   final String label;
   final String? hint;
@@ -55,9 +52,6 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-//  Custom Button
-// ─────────────────────────────────────────
 class CustomButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -132,9 +126,6 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-//  Loading Widget
-// ─────────────────────────────────────────
 class LoadingWidget extends StatelessWidget {
   final String? message;
 
@@ -166,9 +157,6 @@ class LoadingWidget extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-//  Error Widget
-// ─────────────────────────────────────────
 class AppErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
@@ -228,9 +216,6 @@ class AppErrorWidget extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-//  Empty State Widget
-// ─────────────────────────────────────────
 class EmptyStateWidget extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -255,7 +240,7 @@ class EmptyStateWidget extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppTheme.lightGreen,
                 shape: BoxShape.circle,
               ),
@@ -299,9 +284,6 @@ class EmptyStateWidget extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-//  Status Badge
-// ─────────────────────────────────────────
 class StatusBadge extends StatelessWidget {
   final String status;
 
@@ -340,9 +322,6 @@ class StatusBadge extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-//  Category Chip
-// ─────────────────────────────────────────
 class CategoryChip extends StatelessWidget {
   final String label;
   final bool isSelected;

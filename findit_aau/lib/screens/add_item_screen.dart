@@ -67,7 +67,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       location: _selectedLocation,
       contactInfo: _contactCtrl.text.trim(),
       status: _selectedStatus,
-      date: _selectedDate.toIso8601String(),
+      date: _selectedDate,
     );
 
     context.read<ItemBloc>().add(AddItemEvent(item));
